@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace CSharp
@@ -15,7 +16,17 @@ namespace CSharp
         /// <returns></returns>
         public static string Reverse1(string input)
         {
-            return null;
+            string reverseString = "";
+            int length;
+
+            length = input.Length - 1;
+
+            while (length >= 0)
+            {
+                reverseString += input[length];
+                length--;
+            }
+            return reverseString;
         }
 
         /// <summary>
@@ -25,7 +36,7 @@ namespace CSharp
         /// <returns></returns>
         public static string Reverse2(string input)
         {
-            return null;
+            return new string(input.Reverse().ToArray());
         }
 
 
@@ -37,7 +48,13 @@ namespace CSharp
         /// <returns></returns>
         public static string SafeTruncate(string input, int length)
         {
-            return null;
+            string output = null;
+            if (input != null)
+            {
+                output = input.Substring(0, input.Length < length ? input.Length : length);
+            }
+
+            return output;
         }
 
         /// <summary>
@@ -47,7 +64,24 @@ namespace CSharp
         /// <returns></returns>
         public static List<int> EvenNumerics(List<string> input)
         {
-            return null;
+            var result = new List<int>();
+
+            foreach (var inputStrings in input)
+            {
+                var numbers = Regex.Split(inputStrings, @"\D+");
+                foreach (string number in numbers)
+                {
+                    if (Int32.TryParse(number, out int value))
+                    {
+                        result.Add(value);
+                    }
+                    result = (from m in result
+                              where m % 2 == 0
+                              select m).ToList();
+                }
+
+            }
+            return result;
         }
     }
 }

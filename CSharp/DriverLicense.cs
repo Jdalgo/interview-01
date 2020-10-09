@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace CSharp
@@ -20,7 +21,30 @@ namespace CSharp
         /// <returns></returns>
         public static bool Validate(string licenseNumber, string stateCode)
         {
-            return false;
+            bool result = false;
+
+            switch (stateCode)
+            {
+                case "MS":
+                    result = ValidatePlate(licenseNumber, "^[0-9]{9}$");
+                    break;
+                case "NE":
+                    result = ValidatePlate(licenseNumber, "^[a-zA-Z]{1,1}[0-9]{6,8}$");
+                    break;
+                case "CA":
+                    result = ValidatePlate(licenseNumber, "^[a-zA-Z]{1,1}[0-9]{9}$");
+                    break;
+                default:
+                    result = false;
+                    break;
+
+            }
+            return result;
+        }
+        private static bool ValidatePlate(string licenseNumber, string pattern)
+        {
+            var licenseRegex = new Regex(pattern);
+            return licenseRegex.IsMatch(licenseNumber);
         }
     }
 }
